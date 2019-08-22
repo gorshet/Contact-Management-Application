@@ -1,26 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import PropTypes from "prop-types";
 
-export default class AddContact extends React.Component {
-	constructor() {
-		super();
+export default class EditView extends React.Component {
+	constructor(props) {
+		super(props);
 		this.state = {
-			// initialize your state
-			full_name: "",
-			email: "",
-			address: "",
-			phone: ""
+			full_name: null,
+			agenda_slug: "my_awesome_agenda",
+			email: null,
+			phone: null,
+			address: null
 		};
 	}
+
 	render() {
 		return (
 			<Context.Consumer>
 				{({ store, actions }) => {
+					if (this.state.full_name == null)
+						this.setState(store.agenda.find(e => e.id === this.props.match.params.id));
 					return (
 						<div className="container">
 							<div>
-								<h1 className="text-center mt-5">Add a new contact</h1>
+								<h1 className="text-center mt-5">Edit contact</h1>
 								<form>
 									<div className="form-group">
 										<label>Full Name</label>
@@ -29,6 +33,7 @@ export default class AddContact extends React.Component {
 											type="text"
 											className="form-control"
 											placeholder="Full Name"
+											value={this.state.full_name}
 										/>
 									</div>
 									<div className="form-group">
@@ -38,6 +43,7 @@ export default class AddContact extends React.Component {
 											type="email"
 											className="form-control"
 											placeholder="Enter email"
+											value={this.state.email}
 										/>
 									</div>
 									<div className="form-group">
@@ -47,6 +53,7 @@ export default class AddContact extends React.Component {
 											type="phone"
 											className="form-control"
 											placeholder="Enter phone"
+											value={this.state.phone}
 										/>
 									</div>
 									<div className="form-group">
@@ -56,17 +63,13 @@ export default class AddContact extends React.Component {
 											type="text"
 											className="form-control"
 											placeholder="Enter address"
+											value={this.state.address}
 										/>
 									</div>
 									<button
-										onClick={() =>
-											actions.addContact(
-												this.state.full_name,
-												this.state.email,
-												this.state.address,
-												this.state.phone
-											)
-										}
+										onClick={() => {
+											actions.editContact(this.state, this.props.history);
+										}}
 										type="button"
 										className="btn btn-primary form-control">
 										save
@@ -83,3 +86,8 @@ export default class AddContact extends React.Component {
 		);
 	}
 }
+
+EditView.propTypes = {
+	match: PropTypes.object,
+	history: PropTypes.object
+};

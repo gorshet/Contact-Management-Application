@@ -22,6 +22,18 @@ const injectContext = PassedComponent => {
 		}
 
 		componentDidMount() {
+			fetch("https://assets.breatheco.de/apis/fake/contact/agenda/my_awesome_agenda")
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					let store = this.state.store;
+					this.setState({
+						store: {
+							...store,
+							my_awesome_agenda: data
+						}
+					});
+				});
 			/**
 			 * EDIT THIS!
 			 * This function is the equivalent to "window.onLoad", it only run once on the entire application lifetime
