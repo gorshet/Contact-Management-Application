@@ -20,7 +20,7 @@ export default class EditView extends React.Component {
 			<Context.Consumer>
 				{({ store, actions }) => {
 					if (this.state.full_name == null)
-						this.setState(store.agenda.find(e => e.id === this.props.match.params.id));
+						this.setState(store.my_awesome_agenda.find(e => e.id === this.props.match.params.id));
 					return (
 						<div className="container">
 							<div>
